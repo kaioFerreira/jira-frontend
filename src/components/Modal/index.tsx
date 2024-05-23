@@ -9,7 +9,6 @@ interface ModalProps {
 }
 
 export function Modal({openModal, setOpenModal, children}: ModalProps){  
-
   if (!openModal) {
     return null;
   }
