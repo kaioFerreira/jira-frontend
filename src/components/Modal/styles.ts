@@ -1,6 +1,13 @@
 import styled from 'styled-components';
 
 export const ModalBody = styled.div`
+  display: flex;
+
+  flex-direction: column;  
+  justify-content: center;
+  align-items: center;
+
+  padding: 15px 0;
   position: absolute;
   top: 50%;
   left: 50%;

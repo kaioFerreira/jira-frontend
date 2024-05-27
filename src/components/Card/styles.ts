@@ -72,3 +72,19 @@ export const FormEditModal = styled.form`
     box-shadow: 0 0 3px 0 ${props => props.theme['bg-button-color']};
   }
 `;
+
+
+export const DeleteButton = styled.button`
+  background-color: ${props => props.theme['bg-button-color']};
+  background-color: red;
+  width: 400px;
+  color: white;
+  height: 40px;
+  transition: all ease-in-out 0.1s;
+  border-radius: 4px;
+
+  &:hover {
+    cursor: pointer;
+    box-shadow: 0 0 3px 0 red;
+  }
+`;

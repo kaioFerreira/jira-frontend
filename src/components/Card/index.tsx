@@ -1,6 +1,6 @@
 
 import { useState } from 'react';
-import { Container, FormEditModal } from './styles';
+import { Container, FormEditModal, DeleteButton } from './styles';
 import { Modal } from '../Modal';
 import Form from '../Form';
 import { FormProvider, useForm } from 'react-hook-form';
@@ -22,9 +22,10 @@ interface CardProps {
   priority: string,
   status: number,
   updateCard: (card: ListCardProps) => void
+  deleteCard: (id: string) => void
 }
 
-export function Card({updateCard, id, description, responsible, priority, status }: CardProps) {
+export function Card({updateCard, deleteCard, id, description, responsible, priority, status }: CardProps) {
   
   const [openEditModal, setOpenEditModal] = useState(false)
   
@@ -145,6 +146,7 @@ export function Card({updateCard, id, description, responsible, priority, status
 
             <button type="submit">Salvar</button>
           </FormEditModal>
+          <DeleteButton onClick={() => deleteCard(id)}>Excluir</DeleteButton>
         </FormProvider>
       </Modal>
     </>

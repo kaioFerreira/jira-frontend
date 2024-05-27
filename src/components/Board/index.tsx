@@ -110,20 +110,16 @@ export function Board() {
     setCards(updatedCards);
   }
 
+  async function deleteCard(id: string) {
+    const deletedCards = [...cards];
+    
+    setCards(deletedCards.filter((item) => item.id !== id));
+  }
+
   async function createTask(data: FormProps) {
     
     const { description, priority, responsible } = schemaTaskForm.parse(data);
     
-
-    /*const Task = await api.post(`/Tasks`, {
-      name,
-      email,
-      password,
-      confirmPassword,
-    })
-
-    navigate("/SignIn")*/
-
     const newCard = {
       id: uuidv4(),
       description,
@@ -135,8 +131,6 @@ export function Board() {
     
     setCards([...cards, newCard]);
     setOpenModal(!openModal)
-    console.log('Task', description, priority, responsible);
-    console.log('NewTask', data);
   }
 
   return (
@@ -144,10 +138,10 @@ export function Board() {
       <NewCard onClick={() => setOpenModal(!openModal)}>Nova Tarefa</NewCard>
 
       <Container>
-        <List updateCard={updateCard} title='Tarefas' cards={cards} listIndex={0}/>
-        <List updateCard={updateCard} title='Em andamento' cards={cards} listIndex={1}/>
-        <List updateCard={updateCard} title='Em teste' cards={cards} listIndex={2}/>
-        <List updateCard={updateCard} title='Finalizadas' cards={cards} listIndex={3}/>
+        <List updateCard={updateCard} deleteCard={deleteCard} title='Tarefas' cards={cards} listIndex={0}/>
+        <List updateCard={updateCard} deleteCard={deleteCard} title='Em andamento' cards={cards} listIndex={1}/>
+        <List updateCard={updateCard} deleteCard={deleteCard} title='Em teste' cards={cards} listIndex={2}/>
+        <List updateCard={updateCard} deleteCard={deleteCard} title='Finalizadas' cards={cards} listIndex={3}/>
       </Container>
       
       <Modal openModal={openModal} setOpenModal={setOpenModal}>

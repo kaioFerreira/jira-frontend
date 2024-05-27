@@ -14,9 +14,10 @@ interface ListProps {
   cards: CardProps[],
   listIndex: number,
   updateCard: (card: CardProps) => void
+  deleteCard: (id: string) => void
 }
 
-export function List({updateCard, title, cards, listIndex }:ListProps) {
+export function List({updateCard, deleteCard,  title, cards, listIndex }:ListProps) {
   return (
     <Container>
       <header>
@@ -26,6 +27,7 @@ export function List({updateCard, title, cards, listIndex }:ListProps) {
       <ul>
         { cards.filter((card) => card.status === listIndex).map((card) => (
           <Card 
+            deleteCard={deleteCard}
             updateCard={updateCard}
             key={card.id}
             id={card.id}
