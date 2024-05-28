@@ -16,7 +16,7 @@ export function Home(){
       <Header>
         <div>
           <img src={LogoJira} className="App-logo" alt="logo" />
-          <h1>Jira</h1>
+          <h1>To-Do List</h1>
         </div>
       </Header>
 

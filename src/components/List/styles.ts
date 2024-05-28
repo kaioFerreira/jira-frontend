@@ -6,9 +6,6 @@ export const Container = styled.div`
 
   background-color: #F2F3F5;
   border-radius: 4px;
-  & + div {
-    border-left: 1px solid rgba(0, 0, 0, 0.05);
-  }
 
   header {
     display: flex;
