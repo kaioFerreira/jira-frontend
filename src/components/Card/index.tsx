@@ -7,7 +7,7 @@ import { z } from 'zod'
 import { zodResolver } from '@hookform/resolvers/zod';
 import Form from '../Form';
 
-interface IListCardProps {
+interface ICardlistProps {
   id: string,
   title: string,
   description: string,
@@ -17,6 +17,7 @@ interface IListCardProps {
   status: number
 }
 
+
 interface ICardProps {
   id: string,
   title: string,
@@ -25,7 +26,7 @@ interface ICardProps {
   avatar: string,
   priority: string,
   status: number,
-  updateCard: (card: IListCardProps) => void
+  updateCard: (card: ICardlistProps) => void
   deleteCard: (id: string) => void
 }
 
@@ -108,7 +109,7 @@ export function Card({updateCard, deleteCard, id, title, description, responsibl
       status: parseInt(status)
     })
 
-    setOpenEditModal(!openEditModal)
+     setOpenEditModal(!openEditModal);
   },[openEditModal]);
   
   return (
