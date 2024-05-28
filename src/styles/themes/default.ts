@@ -21,6 +21,7 @@ export const defaultTheme = {
     'emerald-300': '#6EE7B7',
 
     'bg-zinc-950': '#09090B',
+    'bg-card-title-color': '#ecedef',
     'bg-button-color': '#014FD0',
     'bg-color': '#FFFFFF',
     'bg-drop-color': '#F4F5F7',

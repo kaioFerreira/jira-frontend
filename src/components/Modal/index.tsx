@@ -2,13 +2,13 @@ import { ReactNode } from "react";
 import { ModalOverlay, ModalBody } from "./styles";
 import { MdClose } from "react-icons/md";
 
-interface ModalProps {
+interface IModalProps {
   openModal: boolean,
   setOpenModal: (openModal: boolean) => void;
   children: ReactNode;
 }
 
-export function Modal({openModal, setOpenModal, children}: ModalProps){  
+export function Modal({openModal, setOpenModal, children}: IModalProps){  
   if (!openModal) {
     return null;
   }

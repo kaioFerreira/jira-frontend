@@ -1,9 +1,9 @@
 import { LabelHTMLAttributes } from "react";
 import { LabelElement } from "./styles/label";
 
-interface LabelProps extends LabelHTMLAttributes<HTMLLabelElement> {}
+interface ILabelProps extends LabelHTMLAttributes<HTMLLabelElement> {}
 
-export function Label(props: LabelProps) {
+export function Label(props: ILabelProps) {
   return (
     <LabelElement {...props}/>
   )

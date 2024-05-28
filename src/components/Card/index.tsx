@@ -1,94 +1,97 @@
 
-import { useState } from 'react';
-import { Container, FormEditModal, DeleteButton } from './styles';
+import { useCallback, useState } from 'react';
+import { Container, FormEditModal, DeleteButton, Responsible } from './styles';
 import { Modal } from '../Modal';
-import Form from '../Form';
 import { FormProvider, useForm } from 'react-hook-form';
 import { z } from 'zod'
 import { zodResolver } from '@hookform/resolvers/zod';
+import Form from '../Form';
 
-interface ListCardProps {
+interface IListCardProps {
   id: string,
+  title: string,
   description: string,
   responsible: string,
+  avatar: string,
   priority: string,
   status: number
 }
 
-interface CardProps {
+interface ICardProps {
   id: string,
+  title: string,
   description: string,
   responsible: string,
+  avatar: string,
   priority: string,
   status: number,
-  updateCard: (card: ListCardProps) => void
+  updateCard: (card: IListCardProps) => void
   deleteCard: (id: string) => void
 }
 
-export function Card({updateCard, deleteCard, id, description, responsible, priority, status }: CardProps) {
-  
+export function Card({updateCard, deleteCard, id, title, description, responsible, avatar, priority, status }: ICardProps) {
+
   const [openEditModal, setOpenEditModal] = useState(false)
   
-  interface SelectOption {
+  interface ISelectOption {
     label: 'ALTA' | 'MEDIA' | 'BAIXA',
-    value: number
+    value: string
   }
 
-  interface StatusOption {
+  interface IStatusOption {
     label:'Tarefas' | 'Em andamento' | 'Em teste' | 'Finalizadas',
-    value: number
+    value: string
   }
 
-  const optionsStatus: StatusOption[] = [
+  const optionsStatus: IStatusOption[] = [
     { 
       label: 'Tarefas',
-      value: 0
+      value: '0'
     },
     { 
       label: 'Em andamento',
-      value: 1
+      value: '1'
     },
     {
       label: 'Em teste',
-      value: 2
+      value: '2'
     },
     {
       label: 'Finalizadas',
-      value: 3
+      value: '3'
     }
   ]
 
-  const optionsSelect: SelectOption[] = [
+  const optionsSelect: ISelectOption[] = [
     { 
       label: 'ALTA',
-      value: 3
+      value: 'red'
     },
     {
       label: "MEDIA",
-      value: 2
+      value: 'orange'
     },
     {
       label: "BAIXA",
-      value: 1
+      value: 'green'
     }
   ]
 
   const schemaTaskForm = z.object({
-    description: z.string()
-      .nonempty('A descrição é obrigatoria'),
+    title: z.string().nonempty('O titulo é obrigatorio'),
+    description: z.string().nonempty('A descrição é obrigatoria'),
     priority: z.string(),
-    responsible: z.string()
-      .nonempty('O responsavel é obrigatorio'),
+    responsible: z.string().nonempty('O responsavel é obrigatorio'),
     status: z.string(),
   });
 
   type FormProps = z.infer<typeof schemaTaskForm>;
 
+  const updateTaskForm = useForm<FormProps>({resolver: zodResolver(schemaTaskForm)});
 
-  const createTaskForm = useForm<FormProps>({resolver: zodResolver(schemaTaskForm)});
-
-  async function createTask(data: FormProps) {
+  const updateTask = useCallback(async (data: FormProps) => {
     const { 
+      title,
       description, 
       priority, 
       responsible, 
@@ -97,37 +100,41 @@ export function Card({updateCard, deleteCard, id, description, responsible, prio
     
     updateCard({
       id,
+      title,
       description,
       responsible,
+      avatar,
       priority,
-      status:  parseInt(status)
+      status: parseInt(status)
     })
+
     setOpenEditModal(!openEditModal)
-  }
+  },[openEditModal]);
   
   return (
     <>
-      <Container 
-        onClick={() => setOpenEditModal(!openEditModal)}
-        color={ 
-          priority === '3' ? 
-            'red' : 
-              priority === '2' ? 'yellow' 
-                : 'green'
-        }>
+      <Container onClick={() => setOpenEditModal(!openEditModal)} color={priority}>
+        <p>{title}</p>
         <p>{description}</p>
-        <p>{responsible}</p>
-        <p>{priority}</p>
+        <Responsible>
+          <img src={avatar} alt="Avatar" />
+          <p>{responsible}</p>
+        </Responsible>
       </Container>
 
       <Modal openModal={openEditModal} setOpenModal={setOpenEditModal}>
-        <FormProvider {...createTaskForm}>
-          <FormEditModal onSubmit={createTaskForm.handleSubmit(createTask)}>
+        <FormProvider {...updateTaskForm}>
+          <FormEditModal onSubmit={updateTaskForm.handleSubmit(updateTask)}>
             <Form.Label>Editar Tarefa</Form.Label>
-              <Form.Field>
-                <Form.Input defaultValue={description} placeholder="Descrição" type="text" name="description" />
-                <Form.ErrorMessage field="description"/>
-              </Form.Field>
+            <Form.Field>
+              <Form.Input defaultValue={title} placeholder="Titulo" type="text" name="title" />
+              <Form.ErrorMessage field="title"/>
+            </Form.Field>
+
+            <Form.Field>
+              <Form.Input defaultValue={description} placeholder="Descrição" type="text" name="description" />
+              <Form.ErrorMessage field="description"/>
+            </Form.Field>
 
             <Form.Field>
               <Form.Input defaultValue={responsible} placeholder="Responsavel" type="text" name="responsible" />

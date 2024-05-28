@@ -1,7 +1,7 @@
 import { useFormContext } from "react-hook-form";
 import { ErrorMessageElement } from "./styles/errorMessage";
 
-interface ErrorMessageProps {
+interface IErrorMessageProps {
   field: string
 }
 
@@ -18,7 +18,7 @@ function get (obj: Record<any, any>, path: string) {
   return result
 };
 
-export function ErrorMessage({field} : ErrorMessageProps) {
+export function ErrorMessage({field} : IErrorMessageProps) {
   const { formState: { errors } } = useFormContext()
 
   const fieldError = get(errors, field)

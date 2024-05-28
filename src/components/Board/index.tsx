@@ -1,172 +1,101 @@
 
-import { Container, FormTask, NewCard, Section } from './styles';
+import { Container } from './styles';
 import { List } from '../List';
 import { useState } from 'react';
-import { Modal } from '../Modal';
-import { FormProvider, useForm } from "react-hook-form";
-import { z } from 'zod'
-import { zodResolver } from "@hookform/resolvers/zod";
-import Form from "../../components/Form";
 import { v4 as uuidv4 } from 'uuid';
-
-interface CardProps {
-  id: string,
-  description: string,
-  responsible: string,
-  priority: string,
-  status: number
-}
 
 export function Board() {
 
-  const [openModal, setOpenModal] = useState(false)
-  
-  const schemaTaskForm = z.object({
-    description: z.string()
-      .nonempty('A descrição é obrigatoria'),
-    priority: z.string(),
-    responsible: z.string()
-      .nonempty('O responsavel é obrigatorio')
-  });
+  const [cards, setCards] = useState([{
+    id: uuidv4(),
+    title: 'TASK 3',
+    description:  'descrição task de numero três, um passo a passo completo', 
+    status: 0,
+    priority: 'green',
+    responsible: 'kaio',
+    avatar: "https://gravatar.com/avatar/19d88624b71204db346947e6fff07871?s=200&d=retro&r=x"
+  },
+  {
+    id: uuidv4(),
+    title: 'TASK 2', 
+    description:  'descrição task de numero dois, um passo a passo completo', 
+    status: 1,
+    priority: 'red',
+    responsible: 'douglas',
+    avatar: "https://gravatar.com/avatar/2581cdc74c7fcbdd63a5e3b0bc954820?s=200&d=retro&r=x"
+  },
+  {
+    id: uuidv4(),
+    title: 'TASK 1', 
+    description:  'descrição task de numero um, um passo a passo completo', 
+    status: 3,
+    priority: 'orange',
+    responsible: 'jose',
+    avatar: "https://gravatar.com/avatar/82ddc0d13e56477d1dfa6ecb94c0349e?s=200&d=retro&r=x"
+  },
+  {
+    id: uuidv4(),
+    title: 'TASK 15', 
+    description:  'descrição task de numero quinze, um passo a passo completo', 
+    status: 1,
+    priority: 'green',
+    responsible: 'Roger',
+    avatar: "https://gravatar.com/avatar/82ddc0d13e56477d1dfa6ecb94c0349e?s=200&d=retro&r=x"
+  },
+  {
+    id: uuidv4(),
+    title: 'TASK 12', 
+    description:  'descrição task de numero doze, um passo a passo completo', 
+    status: 1,
+    priority: 'orange',
+    responsible: 'jose',
+    avatar: "https://gravatar.com/avatar/82ddc0d13e56477d1dfa6ecb94c0349e?s=200&d=retro&r=x"
+  },
+  {
+    id: uuidv4(),
+    title: 'TASK 5', 
+    description:  'descrição task de numero cinco, um passo a passo completo', 
+    status: 2,
+    priority: 'green',
+    responsible: 'Amanda',
+    avatar: "https://gravatar.com/avatar/3948d622e2e0d04a1b4b435851dafb54?s=200&d=retro&r=x"
+  }])
 
-  type FormProps = z.infer<typeof schemaTaskForm>;
-
-  const createTaskForm = useForm<FormProps>({resolver: zodResolver(schemaTaskForm)});
-
-  interface SelectOption {
-    label: 'ALTA' | 'MEDIA' | 'BAIXA',
-    value: number
-  }
-
-  const optionsSelect: SelectOption[] = [
-    { 
-      label: 'ALTA',
-      value: 3
+  const [list, setList] = useState([
+    {
+      title: 'Tarefas',
+      listIndex: 0,
+      creatable: true
     },
     {
-      label: "MEDIA",
-      value: 2
+      title: 'Em andamento',
+      listIndex: 1,
+      creatable: false
     },
     {
-      label: "BAIXA",
-      value: 1
-    }
-  ]
-
-  const [cards, setCards] = useState([
-    {
-      id: '133455662',
-      description: 'asdasd', 
-      status:0,
-      priority:'1',
-      responsible: 'kaio'
+      title: 'Em teste',
+      listIndex: 2,
+      creatable: false
     },
     {
-      id: '1211',
-      description: 'FFFFFFFFFFFFF', 
-      status:2,
-      priority:'1',
-      responsible: 'kaio'
+      title: 'Finalizadas',
+      listIndex: 3,
+      creatable: false
     },
-    {
-      id: '1231212',
-      description: 'page home', 
-      status:0,
-      priority:'1',
-      responsible: 'douglas'
-    },
-    {
-      id: '14',
-      description: 'bolinha 123', 
-      status:1,
-      priority:'1',
-      responsible: 'maicon'
-    },
-    {
-      id: '2454',
-      description: 'asdajjjjjjjjjjjj', 
-      status:3,
-      priority:'3',
-      responsible: 'maicon'
-    }
-    
   ])
 
-  async function updateCard(card: CardProps) {
-    
-    console.log('ALTERA ESSE', card);
-
-    const updatedCards = [...cards];
-    
-    updatedCards.filter((item) => {
-      if(item.id == card.id){
-        item.description = card.description
-        item.priority = card.priority
-        item.responsible = card.responsible
-        item.status = card.status
-      }
-    });
-    
-    setCards(updatedCards);
-  }
-
-  async function deleteCard(id: string) {
-    const deletedCards = [...cards];
-    
-    setCards(deletedCards.filter((item) => item.id !== id));
-  }
-
-  async function createTask(data: FormProps) {
-    
-    const { description, priority, responsible } = schemaTaskForm.parse(data);
-    
-    const newCard = {
-      id: uuidv4(),
-      description,
-      index: 0,
-      status: 0,
-      priority,
-      responsible
-    };
-    
-    setCards([...cards, newCard]);
-    setOpenModal(!openModal)
-  }
-
   return (
-    <Section>
-      <NewCard onClick={() => setOpenModal(!openModal)}>Nova Tarefa</NewCard>
-
-      <Container>
-        <List updateCard={updateCard} deleteCard={deleteCard} title='Tarefas' cards={cards} listIndex={0}/>
-        <List updateCard={updateCard} deleteCard={deleteCard} title='Em andamento' cards={cards} listIndex={1}/>
-        <List updateCard={updateCard} deleteCard={deleteCard} title='Em teste' cards={cards} listIndex={2}/>
-        <List updateCard={updateCard} deleteCard={deleteCard} title='Finalizadas' cards={cards} listIndex={3}/>
-      </Container>
-      
-      <Modal openModal={openModal} setOpenModal={setOpenModal}>
-        <FormProvider {...createTaskForm}>
-          <FormTask onSubmit={createTaskForm.handleSubmit(createTask)}>
-            <Form.Label>Nova Tarefa</Form.Label>
-              <Form.Field>
-                <Form.Input placeholder="Descrição" type="text" name="description" />
-                <Form.ErrorMessage field="description"/>
-              </Form.Field>
-
-            <Form.Field>
-              <Form.Input placeholder="Responsavel" type="text" name="responsible" />
-              <Form.ErrorMessage field="responsible"/>
-            </Form.Field>
-
-            <Form.Field>
-              <Form.Select name="priority" defaultValue={1} options={optionsSelect}  />
-              <Form.ErrorMessage field="priority"/>
-            </Form.Field>
-
-            <button type="submit">Cadastrar</button>
-          </FormTask>
-        </FormProvider>
-      </Modal>
-    </Section>  
+    <Container>
+      {list.map(item => 
+        <List 
+          key={item.title}
+          cards={cards} 
+          setCards={setCards} 
+          creatable={item.creatable} 
+          title={item.title} 
+          listIndex={item.listIndex}/>
+        )
+      }
+    </Container>
   );
 }

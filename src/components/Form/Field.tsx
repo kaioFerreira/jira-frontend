@@ -1,9 +1,9 @@
 import { HTMLAttributes } from "react";
 import { FieldElement } from "./styles/field";
 
-interface FieldProps extends HTMLAttributes<HTMLDivElement> {}
+interface IFieldProps extends HTMLAttributes<HTMLDivElement> {}
 
-export function Field(props: FieldProps) {
+export function Field(props: IFieldProps) {
   return (
     <FieldElement {...props}/>
   )

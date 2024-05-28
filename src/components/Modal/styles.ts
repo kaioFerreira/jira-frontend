@@ -26,7 +26,7 @@ export const ModalBody = styled.div`
 `;
 
 export const ModalOverlay = styled.div`
-  position: fixed;
+  position: absolute;
   top: 0;
   right: 0;
   bottom: 0;

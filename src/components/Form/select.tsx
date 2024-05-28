@@ -2,17 +2,17 @@ import { SelectHTMLAttributes } from "react";
 import { useFormContext } from "react-hook-form";
 import { SelectElement } from "./styles/select";
 
-interface SelectOption {
+interface ISelectOption {
   label: string,
-  value: number
+  value: string
 }
 
-interface SelectProps extends SelectHTMLAttributes<HTMLSelectElement> {
+interface ISelectProps extends SelectHTMLAttributes<HTMLSelectElement> {
   name: string,
-  options: SelectOption[]
+  options: ISelectOption[]
 }
 
-export function Select(props: SelectProps) {
+export function Select(props: ISelectProps) {
   const { register } = useFormContext()
 
   return (
@@ -22,7 +22,7 @@ export function Select(props: SelectProps) {
       {...props}
     >
       {props.options.map(option => (
-        <option key={option.value} value={option.value}>{option.label}</option>
+        <option key={option.label} value={option.value}>{option.label}</option>
       ))}
     </SelectElement>
   )

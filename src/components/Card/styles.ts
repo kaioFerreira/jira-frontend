@@ -1,17 +1,17 @@
 import styled from 'styled-components';
 
-interface ContainerProps {
+interface IContainerProps {
   color: string
 }
 
-export const Container = styled.div<ContainerProps>`
+export const Container = styled.div<IContainerProps>`
   position: relative;
   background: #FFF;
   border-radius: 5px;
   margin-bottom: 10px;
-  padding: 15px;
   box-shadow: 0 1px 4px 0 rgba(192, 208, 230, 0.8);
-  border-top: 20px solid ${(props: ContainerProps) => props.color};
+  
+  border-top: 20px solid ${(props: IContainerProps) => props.color};
   cursor: grab;
 
   header {
@@ -19,9 +19,17 @@ export const Container = styled.div<ContainerProps>`
     top: -22px;
     left: 15px;
   }
+  
+  p:nth-child(1) {
+    background-color: ${props => props.theme['bg-card-title-color']};
+    font-weight: 600;
+  }
 
   p {
-    font-weight: 500;
+    text-align: center;
+
+    padding: 5px;
+    font-weight: 400;
     line-height: 20px;
   }
 
@@ -29,7 +37,11 @@ export const Container = styled.div<ContainerProps>`
     width: 24px;
     height: 24px;
     border-radius: 2px;
-    margin-top: 5px;
+  }
+
+  &:hover {
+    transition: all 0.5s ease;
+    filter: brightness(0.9);
   }
 `;
 
@@ -88,3 +100,12 @@ export const DeleteButton = styled.button`
     box-shadow: 0 0 3px 0 red;
   }
 `;
+
+export const Responsible = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  padding: 5px 0;
+  background-color: ${props => props.theme['bg-card-title-color']};
+`
